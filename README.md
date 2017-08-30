@@ -1,3 +1,36 @@
+# Github Markdown Live Preview
+Github Markdown Live Preview is a Chrome extension which shows a live preview of the rendered Markdown on Github.
+
+Github by itself does not show the rendered Markdown until you click the Preview tab.
+This extension displays it as you type, after a 1 second delay.
+The output is also sanitized, to protect from XSS attacks.
+
+##### Supported pages
+* New and edit issue
+* New and edit Wiki page
+* New and edit PR
+
+##### Unsupported pages
+* New and edit files
+
+## Installation
+Install from the [Chrome Web Store]().
+
+Or add the `src/` folder as an unpacked extension.
+
+## Build
+```
+// Set up the emvironment
+npm run setup
+
+// Zip up for deployment
+npm run zip
+```
+
+## Credits
+[Showdown](https://github.com/showdownjs/showdown) - a Markdown to HTML converter
+
+[sanitize-html](https://github.com/punkave/sanitize-html) - an HTML sanitizer
 
 ## License
 MIT License
