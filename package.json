@@ -1,6 +1,6 @@
 {
   "name": "github-markdown-live-preview",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Chrome extension that shows a live preview when using Markdown on Github.",
   "scripts": {
     "postinstall": "cd node_modules/sanitize-html && npm install && npm run minify && cd ../../ && node ./scripts/setup.js && tsc",
