@@ -14,7 +14,7 @@ The output is also sanitized, to protect from XSS attacks.
 * New and edit files
 
 ## Installation
-* Install from the [Chrome Web Store]().
+* Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/fbpconkbjpdcmaacdbdijnfgaapannod/).
 
 * Install as an unpacked extension:
 
