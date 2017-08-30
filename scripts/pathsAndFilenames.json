@@ -1,0 +1,6 @@
+{
+    "showdownNodeModulesPath": "./node_modules/showdown",
+    "showdownPath": "./src/showdown",
+    "showdownFileName": "showdown.min.js",
+    "showdownLicenseFileName": "license.txt"
+}

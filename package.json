@@ -1,0 +1,18 @@
+{
+  "name": "github-markdown-live-preview",
+  "version": "0.1.0",
+  "description": "Show a live preview when using Markdown on Github.",
+  "scripts": {
+    "copy-showdown": "node ./scripts/copy-showdown.js",
+    "zip": "node ./scripts/zip.js"
+  },
+  "author": "Behind The Math",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "0.0.48",
+    "@types/showdown": "^1.7.1",
+    "showdown": "^1.7.3",
+    "fs-extra": "^4.0.1",
+    "zip-folder": "^1.0.0"
+  }
+}
