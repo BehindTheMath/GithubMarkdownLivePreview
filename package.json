@@ -1,9 +1,9 @@
 {
   "name": "github-markdown-live-preview",
   "version": "0.1.0",
-  "description": "Show a live preview when using Markdown on Github.",
+  "description": "Chrome extension that shows a live preview when using Markdown on Github.",
   "scripts": {
-    "setup": "npm install --only=dev && cd node_modules/sanitize-html && npm install && npm run minify && cd ../../ && node ./scripts/setup.js",
+    "postinstall": "cd node_modules/sanitize-html && npm install && npm run minify && cd ../../ && node ./scripts/setup.js && tsc",
     "zip": "node ./scripts/zip.js"
   },
   "author": "Behind The Math",
@@ -15,6 +15,7 @@
     "fs-extra": "^4.0.1",
     "sanitize-html": "^1.14.1",
     "showdown": "^1.7.3",
-    "zip-folder": "^1.0.0"
+    "zip-folder": "^1.0.0",
+    "typescript": "^2.4.2"
   }
 }

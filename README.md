@@ -14,14 +14,18 @@ The output is also sanitized, to protect from XSS attacks.
 * New and edit files
 
 ## Installation
-Install from the [Chrome Web Store]().
+* Install from the [Chrome Web Store]().
 
-Or add the `src/` folder as an unpacked extension.
+* Install as an unpacked extension:
+
+    1. Clone the repo.
+    2. Run `npm install`
+    3. Install in Chrome as an unpacked extension from the `src` folder
 
 ## Build
 ```
-// Set up the emvironment
-npm run setup
+// Set up the environment
+npm install
 
 // Zip up for deployment
 npm run zip
