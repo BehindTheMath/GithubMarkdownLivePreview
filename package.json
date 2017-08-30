@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Show a live preview when using Markdown on Github.",
   "scripts": {
-    "copy-showdown": "node ./scripts/copy-showdown.js",
+    "setup": "npm install --only=dev && cd node_modules/sanitize-html && npm install && npm run minify && cd ../../ && node ./scripts/setup.js",
     "zip": "node ./scripts/zip.js"
   },
   "author": "Behind The Math",
@@ -11,8 +11,9 @@
   "devDependencies": {
     "@types/chrome": "0.0.48",
     "@types/showdown": "^1.7.1",
-    "showdown": "^1.7.3",
     "fs-extra": "^4.0.1",
+    "sanitize-html": "^1.14.1",
+    "showdown": "^1.7.3",
     "zip-folder": "^1.0.0"
   }
 }

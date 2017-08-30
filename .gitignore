@@ -1,0 +1,6 @@
+.idea/
+node_modules/
+work/
+src/contentScript.js*
+zips/
+src/lib/

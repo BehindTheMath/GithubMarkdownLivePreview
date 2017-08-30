@@ -1,6 +1,10 @@
 {
-    "showdownNodeModulesPath": "./node_modules/showdown",
-    "showdownPath": "./src/showdown",
-    "showdownFileName": "showdown.min.js",
-    "showdownLicenseFileName": "license.txt"
+  "showdownNodeModulesPath": "./node_modules/showdown",
+  "showdownPath": "./src/lib/showdown",
+  "showdownFileName": "showdown.min.js",
+  "showdownLicenseFileName": "license.txt",
+  "sanitizeHtmlNodeModulesPath": "./node_modules/sanitize-html",
+  "sanitizeHtmlPath": "./src/lib/sanitize-html",
+  "sanitizeHtmlFileName": "sanitize-html.min.js",
+  "sanitizeHtmlLicenseFileName": "LICENSE"
 }

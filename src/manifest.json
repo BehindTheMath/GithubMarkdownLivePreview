@@ -14,7 +14,8 @@
         "*://gist.github.com/*"
       ],
       "js": [
-        "showdown/showdown.min.js",
+        "lib/showdown/showdown.min.js",
+        "lib/sanitize-html/sanitize-html.min.js",
         "contentScript.js"
       ],
       "css": [

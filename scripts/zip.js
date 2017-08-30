@@ -5,7 +5,7 @@ const projectName = "GithubMarkdownLivePreview";
 // Get the version number from the manifest
 const version = require("../src/manifest.json").version;
 let outputFileName = `${outputPath}${projectName}-${version}.zip`;
-const pathsAndFilenames = require("./pathsAndFilenames.json");
+const pathsAndFileNames = require("./pathsAndFileNames.json");
 
 const fse = require('fs-extra');
 const zipFolder = require('zip-folder');
@@ -18,16 +18,13 @@ if (fse.existsSync(outputFileName)) {
     outputFileName =  `${outputPath}${projectName}-${version} - ${date}${time}.zip`;
 }
 
-// Check if Showdown is copied
-if (!fse.existsSync(`${pathsAndFilenames.showdownPath}/${pathsAndFilenames.showdownFileName}`)) {
-    // Check if Showdown is installed
-    if (!fse.existsSync(`${pathsAndFilenames.showdownNodeModulesPath}/dist/showdown.min.js`)) {
-        // If not, install it
-        execSync("npm install --only=dev");
-    }
-
-    // Run copy-showdown.js
-    execSync("npm run copy-showdown");
+// Check if Showdown and Sanitize-HTML are copied
+if (!(fse.existsSync(`${pathsAndFileNames.showdownPath}/${pathsAndFileNames.showdownFileName}`) ||
+        fse.existsSync(`${pathsAndFileNames.showdownPath}/${pathsAndFileNames.showdownLicenseFileName}`) ||
+        fse.existsSync(`${pathsAndFileNames.sanitizeHtmlPath}/${pathsAndFileNames.sanitizeHtmlFileName}`) ||
+        fse.existsSync(`${pathsAndFileNames.sanitizeHtmlPath}/${pathsAndFileNames.sanitizeHtmlLicenseFileName}`))) {
+    // Run setup.js
+    execSync("npm run setup");
 }
 
 // Zip it up
