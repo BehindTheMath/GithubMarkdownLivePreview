@@ -20,7 +20,7 @@ The output is also sanitized, to protect from XSS attacks.
 
     1. Clone the repo.
     2. Run `npm install`
-    3. Install in Chrome as an unpacked extension from the `src` folder
+    3. Install in Chrome as an unpacked extension from the `lib-umd` folder
 
 ## Build
 ```
@@ -35,6 +35,8 @@ npm run zip
 [Showdown](https://github.com/showdownjs/showdown) - a Markdown to HTML converter
 
 [sanitize-html](https://github.com/punkave/sanitize-html) - an HTML sanitizer
+
+(See the [LICENSE](LICENSE) file for their licenses).
 
 ## License
 MIT License

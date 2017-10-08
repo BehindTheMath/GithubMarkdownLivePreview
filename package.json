@@ -3,8 +3,13 @@
   "version": "0.2.0",
   "description": "Chrome extension that shows a live preview when using Markdown on Github.",
   "scripts": {
-    "postinstall": "cd node_modules/sanitize-html && npm install && npm run minify && cd ../../ && node ./scripts/setup.js && tsc",
-    "zip": "node ./scripts/zip.js"
+    "postinstall": "npm run build",
+    "zip": "node ./scripts/zip.js",
+    "clean": "shx rm -rf ./lib-umd/*",
+    "build": "npm run clean && npm run webpack-build",
+    "webpack-build": "webpack",
+    "webpack-debug": "webpack --debug",
+    "webpack-display-errors": "webpack --display-error-details"
   },
   "author": "Behind The Math",
   "license": "MIT",
@@ -12,10 +17,14 @@
     "@types/chrome": "0.0.48",
     "@types/sanitize-html": "^1.13.31",
     "@types/showdown": "^1.7.1",
+    "copy-webpack-plugin": "^4.1.1",
+    "fork-ts-checker-webpack-plugin": "^0.2.8",
     "fs-extra": "^4.0.1",
     "sanitize-html": "^1.14.1",
     "showdown": "^1.7.3",
-    "zip-folder": "^1.0.0",
-    "typescript": "^2.4.2"
+    "ts-loader": "^2.3.7",
+    "typescript": "^2.5.3",
+    "webpack": "^3.6.0",
+    "zip-folder": "^1.0.0"
   }
 }

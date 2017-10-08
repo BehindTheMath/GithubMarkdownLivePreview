@@ -14,12 +14,10 @@
         "*://gist.github.com/*"
       ],
       "js": [
-        "lib/showdown/showdown.min.js",
-        "lib/sanitize-html/sanitize-html.min.js",
-        "contentScript.js"
+        "content-script.bundle.js"
       ],
       "css": [
-        "contentScript.css"
+        "content-script.css"
       ]
     }
   ]

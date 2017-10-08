@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "module": "none",
+    "module": "es6",
     "target": "es2017",
     "sourceMap": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
-    "removeComments": true
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true
   },
   "include": [
     "./src/**/*.ts"

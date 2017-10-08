@@ -1,3 +1,6 @@
+import sanitizeHtml from "sanitize-html";
+import showdown from "showdown";
+
 namespace GithubMarkdownLivePreview {
     const converter: showdown.Converter = new showdown.Converter();
     let timeoutId: number;
@@ -93,7 +96,7 @@ namespace GithubMarkdownLivePreview {
             const html: string = converter.makeHtml(textAreaValue);
 
             // Source: https://github.com/jch/html-pipeline/blob/57dd3df78ea822bc8b10602e21c8b653ca0e39ec/lib/html/pipeline/sanitization_filter.rb#L39-L87
-            const sanitizeHtmlOptions: sanitize.IOptions = {
+            const sanitizeHtmlOptions: sanitizeHtml.IOptions = {
                 allowedTags: ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "br", "b", "i", "strong", "em", "a", "pre",
                     "code", "img", "tt", "div", "ins", "del", "sup", "sub", "p", "ol", "ul", "table", "thead", "tbody",
                     "tfoot", "blockquote", "dl", "dt", "dd", "kbd", "q", "samp", "var", "hr", "ruby", "rt", "rp", "li",
