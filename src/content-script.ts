@@ -4,8 +4,9 @@ import showdown from "showdown";
 namespace GithubMarkdownLivePreview {
     const converter: showdown.Converter = new showdown.Converter();
     let timeoutId: number;
+    const validPathsRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/(?:issues\/(?:new|\\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\\d+)$`);
 
-    if (/^\/[^\/]+\/[^\/]+\/(?:issues\/(?:new|\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\d+)$/.test(document.location.pathname)) {
+    if (validPathsRegExp.test(document.location.pathname)) {
         // Set listener to run setup on pjax load
         document.addEventListener("pjax:end", setup);
 
@@ -15,9 +16,17 @@ namespace GithubMarkdownLivePreview {
 
     function setup(): void {
         const path: string = document.location.pathname;
+
+        const newIssuePathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/issues\/new$`);
+        const newPullRequestPathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/compare\/.+`);
+        const newWikiPagePathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/wiki\/_new$`);
+        const editWikiPagePathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/wiki\/.+\/_edit$`);
+        const issuePathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/issues\/\\d+$`);
+        const pullRequestPathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/pull\/\\d+$`);
+
         switch (true) {
-            case /^\/[^\/]+\/[^\/]+\/issues\/new$/.test(path):
-            case /^\/[^\/]+\/[^\/]+\/compare\/.+/.test(path):
+            case newIssuePathRegExp.test(path):
+            case newPullRequestPathRegExp.test(path):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
@@ -26,21 +35,21 @@ namespace GithubMarkdownLivePreview {
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case /^\/[^\/]+\/[^\/]+\/wiki\/_new$/.test(path):
-            case /^\/[^\/]+\/[^\/]+\/wiki\/.+\/_edit$/.test(path):
+            case newWikiPagePathRegExp.test(path):
+            case editWikiPagePathRegExp.test(path):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
 
-                    if (/^\/[^\/]+\/[^\/]+\/wiki\/.+\/_edit$/.test(path)) {
+                    if (editWikiPagePathRegExp.test(path)) {
                         render(textAreaElement.value, previewContentElement);
                     }
 
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case /^\/[^\/]+\/[^\/]+\/issues\/\d+$/.test(path):
-            case /^\/[^\/]+\/[^\/]+\/pull\/\d+$/.test(path):
+            case issuePathRegExp.test(path):
+            case pullRequestPathRegExp.test(path):
                 const newCommentTextAreaElement: HTMLTextAreaElement = document.querySelector("form.js-new-comment-form textarea#new_comment_field") as HTMLTextAreaElement;
                 const newCommentPreviewContentElement: Element = document.querySelector("form.js-new-comment-form div.preview-content");
 
