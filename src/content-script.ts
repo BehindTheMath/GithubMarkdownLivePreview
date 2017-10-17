@@ -5,7 +5,7 @@ namespace GithubMarkdownLivePreview {
     const converter: showdown.Converter = new showdown.Converter();
     let timeoutId: number;
 
-    if (/^\/\w+\/\w+\/(?:issues\/(?:new|\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\d+)$/.test(document.location.pathname)) {
+    if (/^\/[^\/]+\/[^\/]+\/(?:issues\/(?:new|\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\d+)$/.test(document.location.pathname)) {
         // Set listener to run setup on pjax load
         document.addEventListener("pjax:end", setup);
 
@@ -16,8 +16,8 @@ namespace GithubMarkdownLivePreview {
     function setup(): void {
         const path: string = document.location.pathname;
         switch (true) {
-            case /^\/\w+\/\w+\/issues\/new$/.test(path):
-            case /^\/\w+\/\w+\/compare\/.+/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/issues\/new$/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/compare\/.+/.test(path):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
@@ -26,21 +26,21 @@ namespace GithubMarkdownLivePreview {
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case /^\/\w+\/\w+\/wiki\/_new$/.test(path):
-            case /^\/\w+\/\w+\/wiki\/.+\/_edit$/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/wiki\/_new$/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/wiki\/.+\/_edit$/.test(path):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
 
-                    if (/^\/\w+\/\w+\/wiki\/.+\/_edit$/.test(path)) {
+                    if (/^\/[^\/]+\/[^\/]+\/wiki\/.+\/_edit$/.test(path)) {
                         render(textAreaElement.value, previewContentElement);
                     }
 
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case /^\/\w+\/\w+\/issues\/\d+$/.test(path):
-            case /^\/\w+\/\w+\/pull\/\d+$/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/issues\/\d+$/.test(path):
+            case /^\/[^\/]+\/[^\/]+\/pull\/\d+$/.test(path):
                 const newCommentTextAreaElement: HTMLTextAreaElement = document.querySelector("form.js-new-comment-form textarea#new_comment_field") as HTMLTextAreaElement;
                 const newCommentPreviewContentElement: Element = document.querySelector("form.js-new-comment-form div.preview-content");
 
