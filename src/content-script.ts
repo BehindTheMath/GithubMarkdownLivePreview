@@ -29,7 +29,7 @@ namespace GithubMarkdownLivePreview {
             case newPullRequestPathRegExp.test(pathname):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
-                    const previewContentElement: Element = document.querySelector(".preview-content");
+                    const previewContentElement: Element = document.querySelector(".js-preview-body");
 
                     let path: string = document.location.pathname;
                     if (newPullRequestPathRegExp.test(path)) path = path.match(/.*\/compare/)[0];
@@ -42,7 +42,7 @@ namespace GithubMarkdownLivePreview {
             case editWikiPagePathRegExp.test(pathname):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
-                    const previewContentElement: Element = document.querySelector(".preview-content");
+                    const previewContentElement: Element = document.querySelector(".js-preview-body");
 
                     if (editWikiPagePathRegExp.test(pathname)) {
                         render(textAreaElement.value, previewContentElement);
@@ -54,7 +54,7 @@ namespace GithubMarkdownLivePreview {
             case issuePathRegExp.test(pathname):
             case pullRequestPathRegExp.test(pathname):
                 const newCommentTextAreaElement: HTMLTextAreaElement = document.querySelector("form.js-new-comment-form textarea#new_comment_field") as HTMLTextAreaElement;
-                const newCommentPreviewContentElement: Element = document.querySelector("form.js-new-comment-form div.preview-content");
+                const newCommentPreviewContentElement: Element = document.querySelector("form.js-new-comment-form div.js-preview-body");
 
                 // Render existing data from the new comment section
                 render(getExistingDataFromSessionStorage(document.location.pathname), newCommentPreviewContentElement);
@@ -63,18 +63,15 @@ namespace GithubMarkdownLivePreview {
                 setupEventListeners(newCommentTextAreaElement, newCommentPreviewContentElement);
 
                 // Set up event listeners for each edit comments sections
-                Array.from(document.querySelectorAll("form textarea[id^='issue-']:not([id='merge_message_field'])")).forEach((textAreaElement: HTMLTextAreaElement) => {
-                    const formElement: Element = textAreaElement.closest("form");
-                    const previewContentElement: Element = formElement.querySelector(".preview-content p");
-
-                    setupEventListeners(textAreaElement, previewContentElement);
-                });
+                Array.from(document.querySelectorAll("form textarea[id^='issue-']:not([id='merge_message_field'])"))
+                    .forEach((textAreaElement: HTMLTextAreaElement) =>
+                        setupEventListeners(textAreaElement, textAreaElement.closest("form").querySelector(".js-preview-body")));
 
                 // Set up event listeners for each edit comments buttons
                 Array.from(document.querySelectorAll("button.js-comment-edit-button")).forEach((commentEditButton: HTMLButtonElement) => {
                     const formElement: Element = commentEditButton.closest("div[id^='issue-']");
                     const textAreaElement = formElement.querySelector("form textarea") as HTMLTextAreaElement;
-                    const previewContentElement: Element = formElement.querySelector("form.js-comment-update div.preview-content p");
+                    const previewContentElement: Element = formElement.querySelector("form.js-comment-update div.js-preview-body");
 
                     commentEditButton.addEventListener("click", () => {
                         render(textAreaElement.value, previewContentElement);
