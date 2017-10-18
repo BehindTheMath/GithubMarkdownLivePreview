@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Github Markdown Live Preview",
   "description": "Chrome extension that shows a live preview when using Markdown on Github.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "minimum_chrome_version": "58",
   "permissions": [
     "*://github.com/*"
