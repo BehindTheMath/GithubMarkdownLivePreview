@@ -27,5 +27,6 @@
     "typescript": "^2.5.3",
     "webpack": "^3.8.1",
     "zip-folder": "^1.0.0"
-  }
+  },
+  "private": true
 }
