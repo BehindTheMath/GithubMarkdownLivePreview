@@ -4,7 +4,7 @@ import showdown from "showdown";
 namespace GithubMarkdownLivePreview {
     const converter: showdown.Converter = new showdown.Converter();
     let timeoutId: number;
-    const validPathsRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/(?:issues\/(?:new|\\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\\d+)$`);
+    const validPathsRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/(?:issues\/(?:new|\\d+)|wiki\/(?:.+\/_edit|_new)|pull\/\\d+|compare\/.+)$`);
 
     if (validPathsRegExp.test(document.location.pathname)) {
         // Set listener to run setup on pjax load
@@ -15,7 +15,7 @@ namespace GithubMarkdownLivePreview {
     }
 
     function setup(): void {
-        const path: string = document.location.pathname;
+        const pathname: string = document.location.pathname;
 
         const newIssuePathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/issues\/new$`);
         const newPullRequestPathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/compare\/.+`);
@@ -25,36 +25,39 @@ namespace GithubMarkdownLivePreview {
         const pullRequestPathRegExp: RegExp = new RegExp(`^\/[^\/]+\/[^\/]+\/pull\/\\d+$`);
 
         switch (true) {
-            case newIssuePathRegExp.test(path):
-            case newPullRequestPathRegExp.test(path):
+            case newIssuePathRegExp.test(pathname):
+            case newPullRequestPathRegExp.test(pathname):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
 
-                    render(getExistingDataFromSessionStorage(), previewContentElement);
+                    let path: string = document.location.pathname;
+                    if (newPullRequestPathRegExp.test(path)) path = path.match(/.*\/compare/)[0];
+
+                    render(getExistingDataFromSessionStorage(path), previewContentElement);
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case newWikiPagePathRegExp.test(path):
-            case editWikiPagePathRegExp.test(path):
+            case newWikiPagePathRegExp.test(pathname):
+            case editWikiPagePathRegExp.test(pathname):
                 (() => {
                     const textAreaElement: HTMLTextAreaElement = document.querySelector("textarea");
                     const previewContentElement: Element = document.querySelector(".preview-content");
 
-                    if (editWikiPagePathRegExp.test(path)) {
+                    if (editWikiPagePathRegExp.test(pathname)) {
                         render(textAreaElement.value, previewContentElement);
                     }
 
                     setupEventListeners(textAreaElement, previewContentElement);
                 })();
                 break;
-            case issuePathRegExp.test(path):
-            case pullRequestPathRegExp.test(path):
+            case issuePathRegExp.test(pathname):
+            case pullRequestPathRegExp.test(pathname):
                 const newCommentTextAreaElement: HTMLTextAreaElement = document.querySelector("form.js-new-comment-form textarea#new_comment_field") as HTMLTextAreaElement;
                 const newCommentPreviewContentElement: Element = document.querySelector("form.js-new-comment-form div.preview-content");
 
                 // Render existing data from the new comment section
-                render(getExistingDataFromSessionStorage(), newCommentPreviewContentElement);
+                render(getExistingDataFromSessionStorage(document.location.pathname), newCommentPreviewContentElement);
 
                 // Set up event listeners for the new comment section
                 setupEventListeners(newCommentTextAreaElement, newCommentPreviewContentElement);
@@ -82,10 +85,17 @@ namespace GithubMarkdownLivePreview {
         }
     }
 
-    function getExistingDataFromSessionStorage(): string {
-        const sessionStorageKey: string = `session-resume:${document.location.pathname}`;
+    /**
+     * Github stores the data from the textarea in session storage, to be able to restore it if the page reloads.
+     * This function retrieves it from storage.
+     *
+     * @param {string} path
+     * @returns {string}
+     */
+    function getExistingDataFromSessionStorage(path: string): string {
+        const sessionStorageKey: string = `session-resume:${path}`;
         const sessionStorageData: string = sessionStorage.getItem(sessionStorageKey);
-        return sessionStorageData ? /\[\[".+","(.+)"\]\]/.exec(sessionStorageData)[1] : null;
+        return sessionStorageData ? /\[\[".+","(.+)"\]\]/.exec(sessionStorageData)[1].replace(/\\n/g, "\n") : null;
     }
 
     function setupEventListeners(textAreaElement: HTMLTextAreaElement, previewContentElement: Element): void {
