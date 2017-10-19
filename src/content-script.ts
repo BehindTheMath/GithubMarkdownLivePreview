@@ -62,21 +62,38 @@ namespace GithubMarkdownLivePreview {
                 // Set up event listeners for the new comment section
                 setupEventListeners(newCommentTextAreaElement, newCommentPreviewContentElement);
 
-                // Set up event listeners for each edit comments sections
-                Array.from(document.querySelectorAll("form textarea[id^='issue-']:not([id='merge_message_field'])"))
+                // Set up event listeners for each edit comment (regular or inline) sections
+                const issuePageEditCommentTextAreaQuerySelector: string = "form textarea[id^='issue-']:not([id='merge_message_field'])";
+                const pullRequestPageEditCommentTextAreaQuerySelector: string = "form textarea[id^='discussion_']:not([id='merge_message_field'])";
+                Array.from(document.querySelectorAll(`${issuePageEditCommentTextAreaQuerySelector}, ${pullRequestPageEditCommentTextAreaQuerySelector}`))
                     .forEach((textAreaElement: HTMLTextAreaElement) =>
                         setupEventListeners(textAreaElement, textAreaElement.closest("form").querySelector(".js-preview-body")));
 
-                // Set up event listeners for each edit comments buttons
-                Array.from(document.querySelectorAll("button.js-comment-edit-button")).forEach((commentEditButton: HTMLButtonElement) => {
-                    const formElement: Element = commentEditButton.closest("div[id^='issue-']");
-                    const textAreaElement = formElement.querySelector("form textarea") as HTMLTextAreaElement;
-                    const previewContentElement: Element = formElement.querySelector("form.js-comment-update div.js-preview-body");
+                // Set up event listeners for each edit comment buttons
+                Array.from(document.querySelectorAll("button.js-comment-edit-button"))
+                    .forEach((commentEditButton: HTMLButtonElement) => {
+                        let rootElement: Element, textAreaElement: HTMLTextAreaElement, previewContentElement: Element;
 
-                    commentEditButton.addEventListener("click", () => {
-                        render(textAreaElement.value, previewContentElement);
+                        if (issuePathRegExp.test(pathname)) {
+                            rootElement = commentEditButton.closest("div[id^='issue-']");
+                            textAreaElement = rootElement.querySelector("form textarea") as HTMLTextAreaElement;
+                            previewContentElement = rootElement.querySelector("form.js-comment-update div.js-preview-body");
+
+                        } else if (pullRequestPathRegExp.test(pathname)) {
+                            rootElement = commentEditButton.closest("div[id^='discussion_']");
+                            textAreaElement = rootElement.querySelector("form textarea") as HTMLTextAreaElement;
+                            previewContentElement = rootElement.querySelector("form.js-comment-update div.js-preview-body");
+                        }
+
+                        commentEditButton.addEventListener("click", () => {
+                            render(textAreaElement.value, previewContentElement);
+                        });
                     });
-                });
+
+                // Set up event listeners for new inline comment section
+                Array.from(document.querySelectorAll("form textarea[id^='new_inline_comment_discussion_']:not([id='merge_message_field'])"))
+                    .forEach((textAreaElement: HTMLTextAreaElement) =>
+                        setupEventListeners(textAreaElement, textAreaElement.closest("form").querySelector(".js-preview-body")));
 
                 break;
         }
