@@ -3,7 +3,6 @@
   "version": "0.3.4",
   "description": "Chrome extension that shows a live preview when using Markdown on Github.",
   "scripts": {
-    "postinstall": "npm run build",
     "zip": "node ./scripts/zip.js",
     "clean": "shx rm -rf ./lib-umd/*",
     "build": "npm run clean && npm run webpack-build",
