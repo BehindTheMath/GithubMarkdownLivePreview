@@ -109,6 +109,8 @@ namespace GithubMarkdownLivePreview {
     function getExistingDataFromSessionStorage(path: string): string {
         const sessionStorageKey: string = `session-resume:${path}`;
         const sessionStorageData: string = sessionStorage.getItem(sessionStorageKey);
+        if (!sessionStorageData) return null;
+
         const savedTextAreaValue: RegExpMatchArray = sessionStorageData.match(/\[\[".+","(.+)"\]\]/);
         return savedTextAreaValue ? savedTextAreaValue[1].replace(/\\n/g, "\n") : null;
     }
