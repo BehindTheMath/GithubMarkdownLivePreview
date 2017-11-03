@@ -1,6 +1,6 @@
 {
   "name": "github-markdown-live-preview",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Chrome extension that shows a live preview when using Markdown on Github.",
   "scripts": {
     "zip": "node ./scripts/zip.js",
